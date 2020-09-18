@@ -1,7 +1,6 @@
 package com.subwaytrip.app.constants;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.json.simple.JSONObject;
 
 public class SubwayConstValue {
 
@@ -13,7 +12,6 @@ public class SubwayConstValue {
     // 지하철 경로검색 조회 API
     public final static String FIND_STATION_PATH_URI    = "https://api.odsay.com/v1/api/subwayPath";
 
-    // Map<stationName, stationID>
-    public static Map<String, Integer> stationInfoMap = new HashMap<>();
+    public static JSONObject subwayStations = new JSONObject();
 
 }

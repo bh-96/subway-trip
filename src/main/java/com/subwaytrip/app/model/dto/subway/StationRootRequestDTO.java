@@ -4,7 +4,7 @@ import com.subwaytrip.app.constants.SubwayConstValue;
 import lombok.Data;
 
 @Data
-public class StationPathRequestDTO {
+public class StationRootRequestDTO {
 
     private int CID;        // 도시코드
     private int SID;        // 출발역 코드

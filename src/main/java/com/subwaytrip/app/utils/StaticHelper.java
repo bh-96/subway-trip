@@ -4,6 +4,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import java.io.File;
+import java.io.FileReader;
+
 public class StaticHelper {
 
     public static JSONObject getJsonObject(String payload) {
@@ -46,6 +49,16 @@ public class StaticHelper {
             return Integer.parseInt(jsonObject.get(key).toString());
         } catch (Exception e) {
             return 0;
+        }
+    }
+
+    public static JSONObject fileParseToJson(String filePath) {
+        try {
+            JSONParser parser = new JSONParser();
+            return (JSONObject) parser.parse(new FileReader(filePath));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

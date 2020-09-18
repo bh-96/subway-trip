@@ -2,8 +2,8 @@ package com.subwaytrip.app;
 
 import com.subwaytrip.app.model.dto.subway.StationInfoRequestDTO;
 import com.subwaytrip.app.model.dto.subway.StationInfoResponseDTO;
-import com.subwaytrip.app.model.dto.subway.StationPathRequestDTO;
-import com.subwaytrip.app.model.dto.subway.StationPathResponseDTO;
+import com.subwaytrip.app.model.dto.subway.StationRootRequestDTO;
+import com.subwaytrip.app.model.dto.subway.StationRootResponseDTO;
 import com.subwaytrip.app.utils.HttpClientUtils;
 import org.json.simple.JSONObject;
 import org.junit.Ignore;
@@ -33,21 +33,21 @@ public class SubwayAPITests {
     @Ignore
     public void findStationPathTest() throws Exception {
         int cid = 1000;
-        int sid = 148;
-        int eid = 409;
+        int sid = 409;
+        int eid = 759;
 
-        StationPathRequestDTO stationPathRequestDTO = new StationPathRequestDTO();
-        stationPathRequestDTO.setCID(cid);
-        stationPathRequestDTO.setSID(sid);
-        stationPathRequestDTO.setEID(eid);
+        StationRootRequestDTO stationRootRequestDTO = new StationRootRequestDTO();
+        stationRootRequestDTO.setCID(cid);
+        stationRootRequestDTO.setSID(sid);
+        stationRootRequestDTO.setEID(eid);
 
-        String url = stationPathRequestDTO.requestUrl();
+        String url = stationRootRequestDTO.requestUrl();
         System.out.println("REQUEST : " + url);
         JSONObject responseJson = HttpClientUtils.getRequest(url);
         System.out.println("RESPONSE : " + responseJson.toJSONString());
 
-        StationPathResponseDTO stationPathResponseDTO = StationPathResponseDTO.of(responseJson);
-        System.out.println(stationPathResponseDTO.toString());
+        StationRootResponseDTO stationRootResponseDTO = StationRootResponseDTO.of(responseJson);
+        System.out.println(stationRootResponseDTO.toString());
     }
 
 }

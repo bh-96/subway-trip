@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class StationPathResponseDTO {
+public class StationRootResponseDTO {
 
     private String globalStartName;                 // 출발역 명
     private String globalEndName;                   // 도착역 명
@@ -21,17 +21,17 @@ public class StationPathResponseDTO {
     private int cashFare;                           // 현금요금(성인 기준)
     private List<DriveInfoDTO> driveInfoList;       // 경로 정보 리스트
     private List<ExchangeInfoDTO> exchangeInfoList; // 환승 정보 리스트
-    private List<StationPathInfoDTO> stationInfoList;   // 역 정보 리스트
+    private List<StationRootInfoDTO> stationInfoList;   // 역 정보 리스트
 
-    public static StationPathResponseDTO of(JSONObject responseJson) {
+    public static StationRootResponseDTO of(JSONObject responseJson) {
         JSONObject jsonObject = StaticHelper.getJsonObject(responseJson, "result");
-        StationPathResponseDTO stationPathResponseDTO = new StationPathResponseDTO();
-        stationPathResponseDTO.setGlobalStartName(StaticHelper.getJsonValue(jsonObject, "globalStartName", ""));
-        stationPathResponseDTO.setGlobalEndName(StaticHelper.getJsonValue(jsonObject, "globalEndName", ""));
-        stationPathResponseDTO.setGlobalTravelTime(StaticHelper.getJsonValue(jsonObject, "globalTravelTime"));
-        stationPathResponseDTO.setGlobalStationCount(StaticHelper.getJsonValue(jsonObject, "globalStationCount"));
-        stationPathResponseDTO.setFare(StaticHelper.getJsonValue(jsonObject, "fare"));
-        stationPathResponseDTO.setCashFare(StaticHelper.getJsonValue(jsonObject, "cashFare"));
+        StationRootResponseDTO stationRootResponseDTO = new StationRootResponseDTO();
+        stationRootResponseDTO.setGlobalStartName(StaticHelper.getJsonValue(jsonObject, "globalStartName", ""));
+        stationRootResponseDTO.setGlobalEndName(StaticHelper.getJsonValue(jsonObject, "globalEndName", ""));
+        stationRootResponseDTO.setGlobalTravelTime(StaticHelper.getJsonValue(jsonObject, "globalTravelTime"));
+        stationRootResponseDTO.setGlobalStationCount(StaticHelper.getJsonValue(jsonObject, "globalStationCount"));
+        stationRootResponseDTO.setFare(StaticHelper.getJsonValue(jsonObject, "fare"));
+        stationRootResponseDTO.setCashFare(StaticHelper.getJsonValue(jsonObject, "cashFare"));
 
         JSONArray driveInfoList = StaticHelper.getJsonArray(StaticHelper.getJsonObject(jsonObject, "driveInfoSet"), "driveInfo");
         List<DriveInfoDTO> driveInfoDataList = new ArrayList<>();
@@ -41,7 +41,7 @@ public class StationPathResponseDTO {
                 driveInfoDataList.add(DriveInfoDTO.of(data));
             }
         }
-        stationPathResponseDTO.setDriveInfoList(driveInfoDataList);
+        stationRootResponseDTO.setDriveInfoList(driveInfoDataList);
 
         JSONArray exchangeInfoList = StaticHelper.getJsonArray(StaticHelper.getJsonObject(jsonObject, "exChangeInfoSet"), "exChangeInfo");
         List<ExchangeInfoDTO> exchangeInfoDataList = new ArrayList<>();
@@ -51,18 +51,18 @@ public class StationPathResponseDTO {
                 exchangeInfoDataList.add(ExchangeInfoDTO.of(data));
             }
         }
-        stationPathResponseDTO.setExchangeInfoList(exchangeInfoDataList);
+        stationRootResponseDTO.setExchangeInfoList(exchangeInfoDataList);
 
         JSONArray stationInfoList = StaticHelper.getJsonArray(StaticHelper.getJsonObject(jsonObject, "stationSet"), "stations");
-        List<StationPathInfoDTO> stationInfoDataList = new ArrayList<>();
+        List<StationRootInfoDTO> stationInfoDataList = new ArrayList<>();
         if (!ObjectUtils.isEmpty(stationInfoList)) {
             for (Object obj : stationInfoList) {
                 JSONObject data = (JSONObject) obj;
-                stationInfoDataList.add(StationPathInfoDTO.of(data));
+                stationInfoDataList.add(StationRootInfoDTO.of(data));
             }
         }
-        stationPathResponseDTO.setStationInfoList(stationInfoDataList);
+        stationRootResponseDTO.setStationInfoList(stationInfoDataList);
 
-        return stationPathResponseDTO;
+        return stationRootResponseDTO;
     }
 }

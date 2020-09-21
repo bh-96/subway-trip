@@ -16,7 +16,17 @@
 
 &nbsp;
 
-### 1. 노선명 리스트
+### 1. Host
+
+- http(s)://34.64.142.55
+
+&nbsp;
+
+&nbsp;
+
+### 2. API
+
+#### 2-1. 노선명 리스트
 
 [Request]
 
@@ -25,7 +35,7 @@
 - example
 
 ```
-http://localhost:8080/subway/line
+http://34.64.142.55/subway/line
 ```
 
 &nbsp;
@@ -66,7 +76,7 @@ http://localhost:8080/subway/line
 
 &nbsp;
 
-### 2. 노선별 지하철역 정보
+#### 2-2. 노선별 지하철역 정보
 
 [Request]
 
@@ -81,7 +91,7 @@ http://localhost:8080/subway/line
 - example
 
 ```
-http://localhost:8080/subway/station?lineName=09호선
+http://34.64.142.55/subway/station?lineName=09호선
 ```
 
 &nbsp;
@@ -128,7 +138,7 @@ http://localhost:8080/subway/station?lineName=09호선
 
 &nbsp;
 
-### 3. 랜덤 지하철 여행 경로
+#### 2-3. 랜덤 지하철 여행 경로
 
 [Request]
 
@@ -144,7 +154,7 @@ http://localhost:8080/subway/station?lineName=09호선
 - example
 
 ```
-http://localhost:8080/subway/random?startStationName=당고개&lineName=04호선
+http://34.64.142.55/subway/random?startStationName=당고개&lineName=04호선
 ```
 
 &nbsp;

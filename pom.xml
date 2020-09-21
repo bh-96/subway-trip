@@ -61,6 +61,7 @@
     </dependencies>
 
     <build>
+        <finalName>subway-trip</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

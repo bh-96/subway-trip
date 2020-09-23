@@ -4,8 +4,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import java.io.File;
 import java.io.FileReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class StaticHelper {
 
@@ -59,6 +60,14 @@ public class StaticHelper {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static String getFormatDateTime(String format, Date date) {
+        try {
+            return new SimpleDateFormat(format).format(date);
+        } catch (Exception e) {
+            return "";
         }
     }
 

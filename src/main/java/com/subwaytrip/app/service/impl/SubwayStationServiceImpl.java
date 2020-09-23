@@ -1,8 +1,9 @@
-package com.subwaytrip.app.service;
+package com.subwaytrip.app.service.impl;
 
 import com.subwaytrip.app.constants.SubwayConstValue;
 import com.subwaytrip.app.model.dto.subway.StationInfoDTO;
 import com.subwaytrip.app.model.dto.subway.StationInfoResponseDTO;
+import com.subwaytrip.app.service.SubwayStationService;
 import com.subwaytrip.app.utils.LoggerUtils;
 import com.subwaytrip.app.utils.StaticHelper;
 import com.subwaytrip.app.utils.SubwayHelper;

@@ -18,7 +18,7 @@
 
 ### 1. Host
 
-- http(s)://34.64.142.55
+- http://34.64.142.55
 
 &nbsp;
 
@@ -534,3 +534,502 @@ http://34.64.142.55/subway/random?startStationName=당고개&lineName=04호선
 &nbsp;
 
 &nbsp;
+
+#### 2-4. 아이디 중복 체크
+
+[Request]
+
+- path : {host}/user/duplicated/account
+- method : GET
+- parameters
+
+| name    | type   | desc   | 필수값 |
+| ------- | ------ | ------ | ------ |
+| account | String | 아이디 | Y      |
+
+- example
+
+```
+http://34.64.142.55/user/duplicated/account?account=bh
+```
+
+&nbsp;
+
+[Response]
+
+- type : boolean
+- desc : 중복 - true, 중복 아님 - false
+
+- example
+
+```
+false
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-5. 이메일 중복 체크
+
+[Request]
+
+- path : {host}/user/duplicated/email
+- method : GET
+- parameters
+
+| name  | type   | desc   | 필수값 |
+| ----- | ------ | ------ | ------ |
+| email | String | 이메일 | Y      |
+
+- example
+
+```
+http://34.64.142.55/user/duplicated/email?email=96bohyun@naver.com
+```
+
+&nbsp;
+
+[Response]
+
+- type : boolean
+- desc : 중복 - true, 중복 아님 - false
+
+- example
+
+```
+false
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-6. 이메일 인증코드 메일 전송
+
+[Request]
+
+- path : {host}/user/certification
+- method : GET
+- parameters
+
+| name  | type   | desc   | 필수값 |
+| ----- | ------ | ------ | ------ |
+| email | String | 이메일 | Y      |
+
+- example
+
+```
+{
+    "email":"96bohyun@naver.com"
+}
+```
+
+&nbsp;
+
+[Response]
+
+- type : boolean
+- desc : 메일 전송 성공 - true, 실패 - false
+
+- example
+
+```
+true
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-7. 인증
+
+[Request]
+
+- path : {host}/user/check/certcode
+- method : GET
+- parameters
+
+| name     | type   | desc     | 필수값 |
+| -------- | ------ | -------- | ------ |
+| email    | String | 이메일   | Y      |
+| certCode | String | 인증코드 | Y      |
+
+- example
+
+```
+http://34.64.142.55/user/check/certcode?email=96bohyun@naver.com&certCode=kcJ9Dxks
+```
+
+&nbsp;
+
+[Response]
+
+- type : boolean
+- desc : 인증성공 - true, 인증실패 - false
+
+- example
+
+```
+true
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-8. 회원가입
+
+[Request]
+
+- path : {host}/user
+- method : POST
+- parameters
+
+| name     | type   | desc                   | 필수값              |
+| -------- | ------ | ---------------------- | ------------------- |
+| account  | String | 아이디                 | Y                   |
+| password | String | 비밀번호 (15자리 이내) | Y                   |
+| name     | String | 이름 (닉네임)          | N                   |
+| email    | String | 이메일                 | Y                   |
+| role     | String | 권한                   | N (관리자일 경우 Y) |
+
+- example
+
+```
+{
+    "account":"bh",
+    "password":"bh1234",
+    "name":"김보현",
+    "email":"96bohyun@naver.com",
+    "role":"ROLE_ADMIN"
+}
+```
+
+&nbsp;
+
+[Response]
+
+- type : UserDTO
+- desc : 회원가입 성공 - UserDTO (200), 필수 파라미터 오류 - (400), 내부작업오류 - null (200)
+- parameters
+
+| name     | type   | desc              |
+| -------- | ------ | ----------------- |
+| id       | int    | 인덱스            |
+| account  | String | 아이디            |
+| password | String | 암호화된 비밀번호 |
+| email    | String | 이메일            |
+| role     | String | 권한              |
+| regDt    | String | 회원가입 시간     |
+
+- example
+
+```
+{
+    "id": 1,
+    "account": "bh",
+    "password": "U67iWLU6jCIl2d5bibkZfQ==",
+    "name": "김보현",
+    "email": "96bohyun@naver.com",
+    "role": "ROLE_ADMIN",
+    "regDt": "20200923 1435"
+}
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-9. 로그인
+
+[Request]
+
+- path : {host}/user/login
+- method : POST
+- parameters
+
+| name     | type   | desc     | 필수값 |
+| -------- | ------ | -------- | ------ |
+| account  | String | 아이디   | Y      |
+| password | String | 비밀번호 | Y      |
+
+- example
+
+```
+{
+    "account":"bh",
+    "password":"bh1234"
+}
+```
+
+&nbsp;
+
+[Response]
+
+- type : UserDTO
+- desc : 로그인 성공 - UserDTO (200), 로그인 실패 - null (200)
+- parameters
+
+| name     | type   | desc              |
+| -------- | ------ | ----------------- |
+| id       | int    | 인덱스            |
+| account  | String | 아이디            |
+| password | String | 암호화된 비밀번호 |
+| email    | String | 이메일            |
+| role     | String | 권한              |
+| regDt    | String | 회원가입 시간     |
+
+- example
+
+```
+{
+    "id": 1,
+    "account": "bh",
+    "password": "U67iWLU6jCIl2d5bibkZfQ==",
+    "name": "김보현",
+    "email": "96bohyun@naver.com",
+    "role": "ROLE_ADMIN",
+    "regDt": "20200923 1435"
+}
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-10. 회원정보 수정
+
+[Request]
+
+- path : {host}/user
+- method : PATCH
+- parameters
+
+| name     | type   | desc                    | 필수값 |
+| -------- | ------ | ----------------------- | ------ |
+| id       | int    | 인덱스                  | Y      |
+| name     | String | 이름                    | N      |
+| password | String | 비밀번호                | N      |
+| email    | String | 이메일 (재인증 해야 함) | N      |
+
+- example
+
+```
+{
+    "id":1,
+    "password":"bhbh"
+}
+```
+
+&nbsp;
+
+[Response]
+
+- type : UserDTO
+- desc : 회원정보 수정 성공 - UserDTO (200), 필수 파라미터 오류 - null (400), 내부작업오류 - null (200)
+- parameters
+
+| name     | type   | desc              |
+| -------- | ------ | ----------------- |
+| id       | int    | 인덱스            |
+| account  | String | 아이디            |
+| password | String | 암호화된 비밀번호 |
+| email    | String | 이메일            |
+| role     | String | 권한              |
+| regDt    | String | 회원가입 시간     |
+
+- example
+
+```
+{
+    "id": 1,
+    "account": "bh",
+    "password": "D6SYIAATAkqUWoxmmDriTw==",
+    "name": "김보현",
+    "email": "96bohyun@naver.com",
+    "role": "ROLE_ADMIN",
+    "regDt": "20200923 1435"
+}
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-11. 회원정보 조회
+
+[Request]
+
+- path : {host}/user/{id}
+- method : GET
+- parameters
+
+| name | type | desc   | 필수값 |
+| ---- | ---- | ------ | ------ |
+| id   | int  | 인덱스 | Y      |
+
+- example
+
+```
+http://34.64.142.55/user/1
+```
+
+&nbsp;
+
+[Response]
+
+- type : UserDTO
+- desc : 회원정보 조회 성공 - UserDTO (200), 내부작업오류 - null (200)
+- parameters
+
+| name     | type   | desc              |
+| -------- | ------ | ----------------- |
+| id       | int    | 인덱스            |
+| account  | String | 아이디            |
+| password | String | 암호화된 비밀번호 |
+| email    | String | 이메일            |
+| role     | String | 권한              |
+| regDt    | String | 회원가입 시간     |
+
+- example
+
+```
+{
+    "id": 1,
+    "account": "bh",
+    "password": "D6SYIAATAkqUWoxmmDriTw==",
+    "name": "김보현",
+    "email": "96bohyun@naver.com",
+    "role": "ROLE_ADMIN",
+    "regDt": "20200923 1435"
+}
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-12. 회원탈퇴
+
+[Request]
+
+- path : {host}/user/{id}/{password}
+- method : DELETE
+- parameters
+
+| name     | type   | desc     | 필수값 |
+| -------- | ------ | -------- | ------ |
+| id       | int    | 인덱스   | Y      |
+| password | String | 비밀번호 | Y      |
+
+- example
+
+```
+http://34.64.142.55/user/1/bh1234
+```
+
+&nbsp;
+
+[Response]
+
+- type : boolean
+- desc : 회원정보 삭제 성공 - true, 회원정보 삭제 실패 - false
+
+- example
+
+```
+true
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-13. 회원정보 리스트 조회 (관리자)
+
+[Request]
+
+- path : {host}/user
+- method : GET
+- example
+
+```
+http://34.64.142.55/user
+```
+
+&nbsp;
+
+[Response]
+
+- type : List<UserDTO>
+- desc : 회원정보 리스트 조회 성공 - List<UserDTO>, 회원정보 리스트 조회 실패 - null
+- parameters
+
+| name     | type   | desc              |
+| -------- | ------ | ----------------- |
+| id       | int    | 인덱스            |
+| account  | String | 아이디            |
+| password | String | 암호화된 비밀번호 |
+| email    | String | 이메일            |
+| role     | String | 권한              |
+| regDt    | String | 회원가입 시간     |
+
+- example
+
+```
+[
+    {
+        "id": 2,
+        "account": "bh",
+        "password": "U67iWLU6jCIl2d5bibkZfQ==",
+        "name": "김보현",
+        "email": "96bohyun@naver.com",
+        "role": "ROLE_ADMIN",
+        "regDt": "20200923 1449"
+    }
+]
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-14. 권한 변경 (관리자)
+
+[Request]
+
+- path : {host}/user/role
+- method : PATCH
+- parameters
+
+| name          | type   | desc            | 필수값 |
+| ------------- | ------ | --------------- | ------ |
+| adminId       | int    | 관리자 인덱스   | Y      |
+| userId        | int    | 사용자 인덱스   | Y      |
+| adminPassword | String | 관리자 비밀번호 | Y      |
+
+- example
+
+```
+http://34.64.142.55/user/role?adminId=2&userId=3&adminPassword=bh1234
+```
+
+&nbsp;
+
+[Response]
+
+- type : boolean
+- desc : 회원권한 변경 성공 - true, 회원권한 변경 실패 - false
+
+- example
+
+```
+true
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 

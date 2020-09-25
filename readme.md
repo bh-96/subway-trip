@@ -91,7 +91,7 @@ http://34.64.142.55/subway/line
 - example
 
 ```
-http://34.64.142.55/subway/station?lineName=09호선
+http://34.64.142.55/subway/station?lineName=04호선
 ```
 
 &nbsp;
@@ -105,31 +105,32 @@ http://34.64.142.55/subway/station?lineName=09호선
 | lineName |             | Json Array | 노선별 지하철역 정보 |
 |          | lineName    | String     | 노선명               |
 |          | stationName | String     | 역 이름              |
+|          | starRating  | double     | 별점 (기준 5개)      |
 |          | stationID   | String     | 역 ID                |
 
 - example
 
 ```json
 {
-    "09호선": [
+    "04호선": [
         {
-            "lineName": "09호선",
-            "stationName": "석촌고분",
-            "stationID": "932"
-        },
-        {
-            "lineName": "09호선",
-            "stationName": "석촌",
-            "stationID": "933"
+            "lineName": "04호선",
+            "stationName": "남태령",
+            "starRating": 0.0,
+            "stationID": "434"
         },
       
       ...
       
         {
-            "lineName": "09호선",
-            "stationName": "언주",
-            "stationID": "926"
-        }
+            "lineName": "04호선",
+            "stationName": "당고개",
+            "starRating": 2.5,
+            "stationID": "409"
+        },
+      
+      ...
+      
     ]
 }
 ```
@@ -1032,4 +1033,582 @@ true
 
 &nbsp;
 
-#### 
+#### 2-15. 리뷰 파일 등록
+
+[Request]
+
+- path : {host}/review/img
+- method : POST
+- parameters
+
+| name | type          | desc             | 필수값 |
+| ---- | ------------- | ---------------- | ------ |
+| file | MultipartFile | 리뷰 이미지 파일 | Y      |
+
+&nbsp;
+
+[Response]
+
+- type : String
+- desc : 저장된 파일 경로 및 이름 (리턴된 파일명을 ReviewDTO reviewImage 에 써 주면 된다.)
+- example
+
+```
+20200924/5.png
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-16. 리뷰 등록
+
+[Request]
+
+- path : {host}/review/{userId}
+- method : POST
+- parameters
+
+| name        | type   | desc                                         | 필수값 |
+| ----------- | ------ | -------------------------------------------- | ------ |
+| userId      | int    | 리뷰 작성자 (사용자) 인덱스                  | Y      |
+| lineName    | String | 노선명                                       | Y      |
+| stationName | String | 지하철역 명                                  | Y      |
+| title       | String | 제목                                         | Y      |
+| content     | String | 내용                                         | Y      |
+| reviewImage | String | 리뷰 이미지 (2-15. 리뷰파일등록 리턴 파일명) | N      |
+| star        | int    | 별점 (default : 0 -> 0~5)                    | N      |
+
+- example
+
+```
+{
+    "lineName":"01호선",
+    "stationName":"부천역",
+    "title":"만두가게",
+    "content":"존맛탱",
+    "reviewImage":"20200924/5.png"
+}
+```
+
+&nbsp;
+
+[Response]
+
+- type : ReviewDTO
+- desc : 리뷰 저장 성공 - ReviewDTO (200), 필수 파라미터 오류 - (400), 내부작업오류 - null (200)
+- parameters
+
+| name        |          | type    | desc               |
+| ----------- | -------- | ------- | ------------------ |
+| id          |          | int     | 리뷰 인덱스        |
+| user        |          | UserDTO | 사용자 정보        |
+|             | id       | int     | 사용자 인덱스      |
+|             | account  | String  | 아이디             |
+|             | password | String  | 비밀번호           |
+|             | name     | String  | 이름               |
+|             | email    | String  | 이메일             |
+|             | role     | String  | 권한               |
+|             | regDt    | String  | 회원가입 일시      |
+| lineName    |          | String  | 노선명             |
+| stationName |          | String  | 지하철역 명        |
+| title       |          | String  | 제목               |
+| content     |          | String  | 내용               |
+| reviewImage |          | String  | 리뷰 이미지        |
+| star        |          | int     | 별점 (default : 0) |
+| regDt       |          | String  | 등록시간           |
+| modDt       |          | String  | 수정시간           |
+
+
+
+- example
+
+```
+{
+    "id": 1,
+    "user": {
+        "id": 2,
+        "account": "bh",
+        "password": "U67iWLU6jCIl2d5bibkZfQ==",
+        "name": "김보현",
+        "email": "96bohyun@naver.com",
+        "role": "ROLE_ADMIN",
+        "regDt": "20200923 1449"
+    },
+    "lineName": "01호선",
+    "stationName": "부천역",
+    "title": "만두가게",
+    "content": "존맛탱",
+    "reviewImage": "20200924/5.png",
+    "star": 0,
+    "regDt": "20200925 0803",
+    "modDt": null
+}
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-17. 리뷰 조회
+
+[Request]
+
+- path : {host}/review/{reviewId}
+- method : GET
+- parameters
+
+| name     | type | desc        | 필수값 |
+| -------- | ---- | ----------- | ------ |
+| reviewId | int  | 리뷰 인덱스 | Y      |
+
+- example
+
+```
+http://34.64.142.55/review/1
+```
+
+&nbsp;
+
+[Response]
+
+- type : ReviewDTO
+- desc : 리뷰 조회 성공 - ReviewDTO (200), 필수 파라미터 오류 - (400), 내부작업오류 - null (200)
+- parameters
+
+| name        |          | type    | desc               |
+| ----------- | -------- | ------- | ------------------ |
+| id          |          | int     | 리뷰 인덱스        |
+| user        |          | UserDTO | 사용자 정보        |
+|             | id       | int     | 사용자 인덱스      |
+|             | account  | String  | 아이디             |
+|             | password | String  | 비밀번호           |
+|             | name     | String  | 이름               |
+|             | email    | String  | 이메일             |
+|             | role     | String  | 권한               |
+|             | regDt    | String  | 회원가입 일시      |
+| lineName    |          | String  | 노선명             |
+| stationName |          | String  | 지하철역 명        |
+| title       |          | String  | 제목               |
+| content     |          | String  | 내용               |
+| reviewImage |          | String  | 리뷰 이미지        |
+| star        |          | int     | 별점 (default : 0) |
+| regDt       |          | String  | 등록시간           |
+| modDt       |          | String  | 수정시간           |
+
+
+
+- example
+
+```
+{
+    "id": 1,
+    "user": {
+        "id": 2,
+        "account": "bh",
+        "password": "U67iWLU6jCIl2d5bibkZfQ==",
+        "name": "김보현",
+        "email": "96bohyun@naver.com",
+        "role": "ROLE_ADMIN",
+        "regDt": "20200923 1449"
+    },
+    "lineName": "01호선",
+    "stationName": "부천역",
+    "title": "만두가게",
+    "content": "존맛탱",
+    "reviewImage": "20200924/5.png",
+    "star": 0,
+    "regDt": "20200925 0803",
+    "modDt": null
+}
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-18. 리뷰 업데이트
+
+[Request]
+
+- path : {host}/review/{userId}
+- method : PATCH
+- parameters
+
+| name        | type   | desc                                         | 필수값 |
+| ----------- | ------ | -------------------------------------------- | ------ |
+| userId      | int    | 리뷰 작성자 (사용자) 인덱스                  | Y      |
+| id          | int    | 리뷰 인덱스                                  | Y      |
+| lineName    | String | 노선명                                       | N      |
+| stationName | String | 지하철역 명                                  | N      |
+| title       | String | 제목                                         | N      |
+| content     | String | 내용                                         | N      |
+| reviewImage | String | 리뷰 이미지 (2-15. 리뷰파일등록 리턴 파일명) | N      |
+| star        | int    | 별점 (default : 0)                           | N      |
+
+- example
+
+```
+http://34.64.142.55/review/2
+
+{
+    "id":1,
+    "title":"맛집만두"
+}
+```
+
+&nbsp;
+
+[Response]
+
+- type : ReviewDTO
+- desc : 리뷰 업데이트 성공 - ReviewDTO (200), 필수 파라미터 오류 - (400), 내부작업오류 - null (200)
+- parameters
+
+| name        |          | type    | desc               |
+| ----------- | -------- | ------- | ------------------ |
+| id          |          | int     | 리뷰 인덱스        |
+| user        |          | UserDTO | 사용자 정보        |
+|             | id       | int     | 사용자 인덱스      |
+|             | account  | String  | 아이디             |
+|             | password | String  | 비밀번호           |
+|             | name     | String  | 이름               |
+|             | email    | String  | 이메일             |
+|             | role     | String  | 권한               |
+|             | regDt    | String  | 회원가입 일시      |
+| lineName    |          | String  | 노선명             |
+| stationName |          | String  | 지하철역 명        |
+| title       |          | String  | 제목               |
+| content     |          | String  | 내용               |
+| reviewImage |          | String  | 리뷰 이미지        |
+| star        |          | int     | 별점 (default : 0) |
+| regDt       |          | String  | 등록시간           |
+| modDt       |          | String  | 수정시간           |
+
+
+
+- example
+
+```
+{
+    "id": 1,
+    "user": {
+        "id": 2,
+        "account": "bh",
+        "password": "U67iWLU6jCIl2d5bibkZfQ==",
+        "name": "김보현",
+        "email": "96bohyun@naver.com",
+        "role": "ROLE_ADMIN",
+        "regDt": "20200923 1449"
+    },
+    "lineName": "01호선",
+    "stationName": "부천역",
+    "title": "맛집만두",
+    "content": "존맛탱",
+    "reviewImage": "20200924/5.png",
+    "star": 0,
+    "regDt": "20200925 0803",
+    "modDt": "20200925 0917"
+}
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-19. 리뷰 삭제
+
+[Request]
+
+- path : {host}/review/{userId}/{reviewId}
+- method : DELETE
+- parameters
+
+| name     | type | desc                        | 필수값 |
+| -------- | ---- | --------------------------- | ------ |
+| userId   | int  | 리뷰 작성자 (사용자) 인덱스 | Y      |
+| reviewId | int  | 리뷰 인덱스                 | Y      |
+
+- example
+
+```
+http://34.64.142.55/review/2/1
+```
+
+&nbsp;
+
+[Response]
+
+- type : boolean
+- desc : 리뷰 삭제 성공 - true, 실패 - false
+- example
+
+```
+true
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-20. 지하철역 명으로 리뷰 리스트 조회
+
+[Request]
+
+- path : {host}/review/list/station
+- method : GET
+- parameters
+
+| name        | type   | desc                                                | 필수값 |
+| ----------- | ------ | --------------------------------------------------- | ------ |
+| stationName | String | 지하철역 명                                         | Y      |
+| sortParam   | String | 정렬 파라미터 명 (별점 순 : star, default : 최신순) | N      |
+
+- example
+
+```
+http://34.64.142.55/review/list/station?stationName=당고개
+http://34.64.142.55/review/list/station?stationName=당고개&sortParam=star
+```
+
+&nbsp;
+
+[Response]
+
+- type : List<ReviewDTO>
+- desc : 리뷰 리스트 조회 성공 - ReviewDTO (200), 없거나 내부작업오류 - null (200)
+- parameters
+
+| name        |          | type    | desc               |
+| ----------- | -------- | ------- | ------------------ |
+| id          |          | int     | 리뷰 인덱스        |
+| user        |          | UserDTO | 사용자 정보        |
+|             | id       | int     | 사용자 인덱스      |
+|             | account  | String  | 아이디             |
+|             | password | String  | 비밀번호           |
+|             | name     | String  | 이름               |
+|             | email    | String  | 이메일             |
+|             | role     | String  | 권한               |
+|             | regDt    | String  | 회원가입 일시      |
+| lineName    |          | String  | 노선명             |
+| stationName |          | String  | 지하철역 명        |
+| title       |          | String  | 제목               |
+| content     |          | String  | 내용               |
+| reviewImage |          | String  | 리뷰 이미지        |
+| star        |          | int     | 별점 (default : 0) |
+| regDt       |          | String  | 등록시간           |
+| modDt       |          | String  | 수정시간           |
+
+
+
+- example
+
+```
+[
+    {
+        "id": 5,
+        "user": {
+            "id": 2,
+            "account": "bh",
+            "password": "U67iWLU6jCIl2d5bibkZfQ==",
+            "name": "김보현",
+            "email": "96bohyun@naver.com",
+            "role": "ROLE_ADMIN",
+            "regDt": "20200923 1449"
+        },
+        "lineName": "04호선",
+        "stationName": "당고개",
+        "title": "옷가게",
+        "content": "다양하지 않다.",
+        "reviewImage": null,
+        "star": 1,
+        "regDt": "20200925 0932",
+        "modDt": null
+    },
+    {
+        "id": 4,
+        "user": {
+            "id": 2,
+            "account": "bh",
+            "password": "U67iWLU6jCIl2d5bibkZfQ==",
+            "name": "김보현",
+            "email": "96bohyun@naver.com",
+            "role": "ROLE_ADMIN",
+            "regDt": "20200923 1449"
+        },
+        "lineName": "04호선",
+        "stationName": "당고개",
+        "title": "옛날통닭",
+        "content": "별로",
+        "reviewImage": null,
+        "star": 1,
+        "regDt": "20200925 0931",
+        "modDt": null
+    },
+    {
+        "id": 3,
+        "user": {
+            "id": 2,
+            "account": "bh",
+            "password": "U67iWLU6jCIl2d5bibkZfQ==",
+            "name": "김보현",
+            "email": "96bohyun@naver.com",
+            "role": "ROLE_ADMIN",
+            "regDt": "20200923 1449"
+        },
+        "lineName": "04호선",
+        "stationName": "당고개",
+        "title": "토스트",
+        "content": "최고",
+        "reviewImage": null,
+        "star": 4,
+        "regDt": "20200925 0931",
+        "modDt": null
+    }
+]
+```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-21. 사용자별 리뷰 리스트 조회
+
+[Request]
+
+- path : {host}/review/list/user
+- method : GET
+- parameters
+
+| name        | type   | desc                                                | 필수값 |
+| ----------- | ------ | --------------------------------------------------- | ------ |
+| stationName | String | 지하철역 명                                         | Y      |
+| sortParam   | String | 정렬 파라미터 명 (별점 순 : star, default : 최신순) | N      |
+
+- example
+
+```
+http://34.64.142.55/review/list/user?userId=2
+http://34.64.142.55/review/list/user?userId=2&sortParam=star
+```
+
+&nbsp;
+
+[Response]
+
+- type : List<ReviewDTO>
+- desc : 리뷰 리스트 조회 성공 - ReviewDTO (200), 없거나 내부작업오류 - null (200)
+- parameters
+
+| name        |          | type    | desc               |
+| ----------- | -------- | ------- | ------------------ |
+| id          |          | int     | 리뷰 인덱스        |
+| user        |          | UserDTO | 사용자 정보        |
+|             | id       | int     | 사용자 인덱스      |
+|             | account  | String  | 아이디             |
+|             | password | String  | 비밀번호           |
+|             | name     | String  | 이름               |
+|             | email    | String  | 이메일             |
+|             | role     | String  | 권한               |
+|             | regDt    | String  | 회원가입 일시      |
+| lineName    |          | String  | 노선명             |
+| stationName |          | String  | 지하철역 명        |
+| title       |          | String  | 제목               |
+| content     |          | String  | 내용               |
+| reviewImage |          | String  | 리뷰 이미지        |
+| star        |          | int     | 별점 (default : 0) |
+| regDt       |          | String  | 등록시간           |
+| modDt       |          | String  | 수정시간           |
+
+
+
+- example
+
+```
+[
+    {
+        "id": 5,
+        "user": {
+            "id": 2,
+            "account": "bh",
+            "password": "U67iWLU6jCIl2d5bibkZfQ==",
+            "name": "김보현",
+            "email": "96bohyun@naver.com",
+            "role": "ROLE_ADMIN",
+            "regDt": "20200923 1449"
+        },
+        "lineName": "04호선",
+        "stationName": "당고개",
+        "title": "옷가게",
+        "content": "다양하지 않다.",
+        "reviewImage": null,
+        "star": 1,
+        "regDt": "20200925 0932",
+        "modDt": null
+    },
+    {
+        "id": 4,
+        "user": {
+            "id": 2,
+            "account": "bh",
+            "password": "U67iWLU6jCIl2d5bibkZfQ==",
+            "name": "김보현",
+            "email": "96bohyun@naver.com",
+            "role": "ROLE_ADMIN",
+            "regDt": "20200923 1449"
+        },
+        "lineName": "04호선",
+        "stationName": "당고개",
+        "title": "옛날통닭",
+        "content": "별로",
+        "reviewImage": null,
+        "star": 1,
+        "regDt": "20200925 0931",
+        "modDt": null
+    },
+    {
+        "id": 3,
+        "user": {
+            "id": 2,
+            "account": "bh",
+            "password": "U67iWLU6jCIl2d5bibkZfQ==",
+            "name": "김보현",
+            "email": "96bohyun@naver.com",
+            "role": "ROLE_ADMIN",
+            "regDt": "20200923 1449"
+        },
+        "lineName": "04호선",
+        "stationName": "당고개",
+        "title": "토스트",
+        "content": "최고",
+        "reviewImage": null,
+        "star": 4,
+        "regDt": "20200925 0931",
+        "modDt": null
+    },
+    {
+        "id": 2,
+        "user": {
+            "id": 2,
+            "account": "bh",
+            "password": "U67iWLU6jCIl2d5bibkZfQ==",
+            "name": "김보현",
+            "email": "96bohyun@naver.com",
+            "role": "ROLE_ADMIN",
+            "regDt": "20200923 1449"
+        },
+        "lineName": "01호선",
+        "stationName": "부천",
+        "title": "만두가게",
+        "content": "존맛탱",
+        "reviewImage": null,
+        "star": 3,
+        "regDt": "20200925 0931",
+        "modDt": "20200925 0933"
+    }
+]
+```
+
+&nbsp;
+
+&nbsp;

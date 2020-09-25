@@ -28,6 +28,14 @@ public class ClientConfig {
     @Value("${spring.redis.password}")
     private String password;
 
+    @Value("${file.path}")
+    private String filePath;
+
+    @Bean(name = "uploadPath")
+    public String uploadPath() {
+        return filePath;
+    }
+
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();

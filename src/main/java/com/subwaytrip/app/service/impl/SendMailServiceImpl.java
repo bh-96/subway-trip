@@ -78,7 +78,7 @@ public class SendMailServiceImpl extends LoggerUtils implements SendMailService 
 
         try {
             String subject = "[랜덤지하철여행] 이메일 인증코드 입니다.";
-            String content = "안녕하세요. 랜덤지하철여행 관리자입니다 :)\n\n  - 이메일 인증코드 : " + certCode + "\n\n3분 이내에 해당 인증코드를 입력해주세요!\n\n감사합니다.";
+            String content = "안녕하세요. 랜덤지하철여행 관리자입니다 :)<br/><br/>  - 이메일 인증코드 : " + certCode + "<br/><br/>3분 이내에 해당 인증코드를 입력해주세요!<br/><br/>감사합니다.";
 
             // 2020.05.18 BH sender : group mail 로 변경
             helper.setFrom(new InternetAddress(sender, "랜덤지하철여행"));

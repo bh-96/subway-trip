@@ -3,7 +3,6 @@ package com.subwaytrip.app.service.impl;
 import com.subwaytrip.app.constants.ConstValue;
 import com.subwaytrip.app.model.domain.User;
 import com.subwaytrip.app.model.dto.UserDTO;
-import com.subwaytrip.app.model.repository.ReviewRepository;
 import com.subwaytrip.app.model.repository.UserRepository;
 import com.subwaytrip.app.service.UserService;
 import com.subwaytrip.app.utils.AES256Utils;
@@ -23,14 +22,12 @@ import java.util.concurrent.TimeUnit;
 public class UserServiceImpl extends LoggerUtils implements UserService {
 
     private UserRepository userRepository;
-    private ReviewRepository reviewRepository;
     private RedisTemplate<String, String> redisTemplate;
     private AES256Utils aes256Utils;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ReviewRepository reviewRepository, RedisTemplate<String, String> redisTemplate, AES256Utils aes256Utils) {
+    public UserServiceImpl(UserRepository userRepository, RedisTemplate<String, String> redisTemplate, AES256Utils aes256Utils) {
         this.userRepository = userRepository;
-        this.reviewRepository = reviewRepository;
         this.redisTemplate = redisTemplate;
         this.aes256Utils = aes256Utils;
     }

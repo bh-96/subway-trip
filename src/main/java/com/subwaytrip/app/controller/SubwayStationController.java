@@ -1,6 +1,7 @@
 package com.subwaytrip.app.controller;
 
 import com.subwaytrip.app.constants.SubwayConstValue;
+import com.subwaytrip.app.service.StarRatingService;
 import com.subwaytrip.app.service.SubwayStationService;
 import com.subwaytrip.app.utils.LoggerUtils;
 import com.subwaytrip.app.utils.StaticHelper;
@@ -10,6 +11,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,10 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class SubwayStationController extends LoggerUtils {
 
     private SubwayStationService subwayStationService;
+    private StarRatingService starRatingService;
 
     @Autowired
-    public SubwayStationController(SubwayStationService subwayStationService) {
+    public SubwayStationController(SubwayStationService subwayStationService, StarRatingService starRatingService) {
         this.subwayStationService = subwayStationService;
+        this.starRatingService = starRatingService;
     }
 
     /**
@@ -50,6 +54,18 @@ public class SubwayStationController extends LoggerUtils {
         } else {
             JSONObject subwayStations = new JSONObject();
             JSONArray subwayStationData = StaticHelper.getJsonArray(SubwayConstValue.subwayStations, lineName);
+
+            // 별점 추가
+            if (!ObjectUtils.isEmpty(subwayStationData)) {
+                for (Object obj : subwayStationData) {
+                    JSONObject data = (JSONObject) obj;
+                    String line = StaticHelper.getJsonValue(data, "lineName", "");
+                    String station = StaticHelper.getJsonValue(data, "stationName", "");
+                    double starRating = starRatingService.avgStarRating(lineName, station);
+                    data.put("starRating", starRating);
+                }
+            }
+
             subwayStations.put(lineName, subwayStationData);
             return new ResponseEntity<>(subwayStations.toJSONString(), HttpStatus.OK);
         }

@@ -11,6 +11,7 @@ public class StarRatingDTO {
     private String stationName;
     private int ratingCount;
     private int totalStar;
+    private double avgStar;
 
     public static StarRatingDTO of(StarRating starRating) {
         return MapperUtils.convert(starRating, StarRatingDTO.class);

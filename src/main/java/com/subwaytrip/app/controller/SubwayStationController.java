@@ -61,7 +61,7 @@ public class SubwayStationController extends LoggerUtils {
                     JSONObject data = (JSONObject) obj;
                     String line = StaticHelper.getJsonValue(data, "lineName", "");
                     String station = StaticHelper.getJsonValue(data, "stationName", "");
-                    double starRating = starRatingService.avgStarRating(lineName, station);
+                    double starRating = starRatingService.avgStarRating(line, station);
                     data.put("starRating", starRating);
                 }
             }

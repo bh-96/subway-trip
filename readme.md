@@ -1084,7 +1084,7 @@ true
 ```
 {
     "lineName":"01호선",
-    "stationName":"부천역",
+    "stationName":"부천",
     "title":"만두가게",
     "content":"존맛탱",
     "reviewImage":"20200924/5.png"
@@ -1612,3 +1612,88 @@ http://34.64.124.91/review/list/user?userId=2&sortParam=star
 &nbsp;
 
 &nbsp;
+
+#### 2-22. 인기있는  지하철역 추천
+
+[Request]
+
+- path : {host}/recommendation
+- method : GET
+- parameters
+
+| name     | type   | desc                                 | 필수값          |
+| -------- | ------ | ------------------------------------ | --------------- |
+| type     | int    | 필터 (0 : 리뷰 많은 순, 1 : 별점 순) | N (default : 0) |
+| lineName | String | 노선명                               | N               |
+
+- example
+
+```
+localhost/recommendation?type=0
+```
+
+&nbsp;
+
+[Response]
+
+- type : List<AboutReviewCount>, List<AboutStarRating>
+- desc : 인기 지하철역 리스트 조회 성공 - List<RecommendationDTO> (200), 없거나 내부작업오류 - null (200)
+
+&nbsp;
+
+**[type = 0 리뷰 많은 순]**
+
+- parameters
+
+| name        | type   | desc        |
+| ----------- | ------ | ----------- |
+| lineName    | String | 노선명      |
+| stationName | String | 지하철역 명 |
+| count       | int    | 리뷰 수     |
+
+- example
+
+```
+[
+    {
+        "lineName": "04호선",
+        "stationName": "당고개",
+        "count": 5
+    },
+    {
+        "lineName": "01호선",
+        "stationName": "부천",
+        "count": 2
+    }
+]
+```
+
+&nbsp;
+
+**[type = 2 별점 순]**
+
+- parameters
+
+| name        | type   | desc            |
+| ----------- | ------ | --------------- |
+| lineName    | String | 노선명          |
+| stationName | String | 지하철역 명     |
+| avgStar     | double | 별점 (5개 기준) |
+
+- example
+
+```
+[
+    {
+        "lineName": "04호선",
+        "stationName": "당고개",
+        "avgStar": 2.5
+    },
+    {
+        "lineName": "01호선",
+        "stationName": "부천",
+        "avgStar": 2.0
+    }
+]
+```
+

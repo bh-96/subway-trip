@@ -26,6 +26,9 @@ public class StarRating {
     @Column(name = "TOTAL_STAR")
     private int totalStar;
 
+    @Column(name = "AVG_STAR")
+    private double avgStar;
+
     public static StarRating of(StarRatingDTO starRatingDTO) {
         return MapperUtils.convert(starRatingDTO, StarRating.class);
     }

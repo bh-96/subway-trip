@@ -11,6 +11,7 @@ import com.subwaytrip.app.service.StarRatingService;
 import com.subwaytrip.app.service.UserService;
 import com.subwaytrip.app.utils.LoggerUtils;
 import com.subwaytrip.app.utils.StaticHelper;
+import com.subwaytrip.app.utils.SubwayHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,18 @@ public class ReviewServiceImpl extends LoggerUtils implements ReviewService {
         UserDTO user = userService.getUser(userId);
         reviewDTO.setUser(user);
         reviewDTO.setRegDt(StaticHelper.getFormatDateTime("yyyyMMdd HHmm", new Date()));
+
+        if (!reviewDTO.getStationName().equals("서울역") && reviewDTO.getStationName().substring(reviewDTO.getStationName().length() - 1).contains("역")) {
+            reviewDTO.setStationName(reviewDTO.getStationName().substring(0, reviewDTO.getStationName().length() - 2));
+        }
+
+        // 노선명 유효성 체크
+        List<String> lineList = SubwayHelper.getSubwayLineList();
+        if (!lineList.contains(reviewDTO.getLineName())) {
+            logger.error("saveReview : lineName = " + reviewDTO.getLineName() + ", error = invalid lineName.");
+            return null;
+        }
+
         Review review = Review.of(reviewDTO);
 
         // 별점 저장

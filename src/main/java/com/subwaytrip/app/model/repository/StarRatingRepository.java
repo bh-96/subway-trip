@@ -14,7 +14,7 @@ public interface StarRatingRepository extends JpaRepository<StarRating, StarRati
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE STAR_RATING s SET s.RATING_COUNT = :reviewCount, s.TOTAL_STAR = :totalStar WHERE s.LINE_NAME = :lineName AND s.STATION_NAME = :stationName ", nativeQuery = true)
-    void updateStarRating(@Param("lineName") String lineName, @Param("stationName") String stationName, @Param("reviewCount") int reviewCount, @Param("totalStar") int totalStar);
+    @Query(value = "UPDATE STAR_RATING s SET s.RATING_COUNT = :reviewCount, s.TOTAL_STAR = :totalStar, s.AVG_STAR = :avgStar WHERE s.LINE_NAME = :lineName AND s.STATION_NAME = :stationName ", nativeQuery = true)
+    void updateStarRating(@Param("lineName") String lineName, @Param("stationName") String stationName, @Param("reviewCount") int reviewCount, @Param("totalStar") int totalStar, @Param("avgStar") double avgStar);
 
 }

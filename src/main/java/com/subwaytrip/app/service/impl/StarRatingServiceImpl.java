@@ -29,6 +29,8 @@ public class StarRatingServiceImpl extends LoggerUtils implements StarRatingServ
         if (savedStarRating == null) {
             starRatingDTO.setRatingCount(1);
             starRatingDTO.setTotalStar(star);
+            starRatingDTO.setAvgStar(getAvgStarRating(starRatingDTO.getRatingCount(), star));
+
             try {
                 starRatingRepository.save(StarRating.of(starRatingDTO));
                 return true;
@@ -37,7 +39,8 @@ public class StarRatingServiceImpl extends LoggerUtils implements StarRatingServ
             }
         } else {
             try {
-                starRatingRepository.updateStarRating(savedStarRating.getLineName(), savedStarRating.getStationName(), savedStarRating.getRatingCount() + 1, savedStarRating.getTotalStar() + star);
+                starRatingRepository.updateStarRating(savedStarRating.getLineName(), savedStarRating.getStationName(), savedStarRating.getRatingCount() + 1,
+                        savedStarRating.getTotalStar() + star, getAvgStarRating(savedStarRating.getRatingCount() + 1, savedStarRating.getTotalStar() + star));
                 return true;
             } catch (Exception e) {
                 logger.error("updateStarRating", e);
@@ -50,12 +53,15 @@ public class StarRatingServiceImpl extends LoggerUtils implements StarRatingServ
     public double avgStarRating(String lineName, String stationName) {
         StarRatingDTO starRating = getStarRating(lineName, stationName);
         if (starRating != null) {
-            int total = starRating.getRatingCount() * 5;
-            int stars = starRating.getTotalStar();
-            double avg = (double) stars / (double) total;
-            return Math.round(avg * 10) / 10.0 * 5;
+            return getAvgStarRating(starRating.getRatingCount(), starRating.getTotalStar());
         }
         return 0;
+    }
+
+    private double getAvgStarRating(int ratingCount, int totalStar) {
+        int total = ratingCount * 5;
+        double avg = (double) totalStar / (double) total;
+        return Math.round(avg * 10) / 10.0 * 5;
     }
 
     @Override
@@ -66,7 +72,7 @@ public class StarRatingServiceImpl extends LoggerUtils implements StarRatingServ
             return false;
         } else {
             try {
-                starRatingRepository.updateStarRating(savedStarRating.getLineName(), savedStarRating.getStationName(), savedStarRating.getRatingCount(), savedStarRating.getTotalStar() - oldStar + newStar);
+                starRatingRepository.updateStarRating(savedStarRating.getLineName(), savedStarRating.getStationName(), savedStarRating.getRatingCount(), savedStarRating.getTotalStar() - oldStar + newStar, getAvgStarRating(savedStarRating.getRatingCount(), savedStarRating.getTotalStar() - oldStar + newStar));
                 return true;
             } catch (Exception e) {
                 logger.error("updateStarRating", e);

@@ -18,7 +18,7 @@
 
 ### 1. Host
 
-- http://34.64.142.55
+- http://34.64.124.91/
 
 &nbsp;
 
@@ -35,7 +35,7 @@
 - example
 
 ```
-http://34.64.142.55/subway/line
+http://34.64.124.91/subway/line
 ```
 
 &nbsp;
@@ -91,7 +91,7 @@ http://34.64.142.55/subway/line
 - example
 
 ```
-http://34.64.142.55/subway/station?lineName=04호선
+http://34.64.124.91/subway/station?lineName=04호선
 ```
 
 &nbsp;
@@ -155,7 +155,7 @@ http://34.64.142.55/subway/station?lineName=04호선
 - example
 
 ```
-http://34.64.142.55/subway/random?startStationName=당고개&lineName=04호선
+http://34.64.124.91/subway/random?startStationName=당고개&lineName=04호선
 ```
 
 &nbsp;
@@ -551,7 +551,7 @@ http://34.64.142.55/subway/random?startStationName=당고개&lineName=04호선
 - example
 
 ```
-http://34.64.142.55/user/duplicated/account?account=bh
+http://34.64.124.91/user/duplicated/account?account=bh
 ```
 
 &nbsp;
@@ -586,7 +586,7 @@ false
 - example
 
 ```
-http://34.64.142.55/user/duplicated/email?email=96bohyun@naver.com
+http://34.64.124.91/user/duplicated/email?email=96bohyun@naver.com
 ```
 
 &nbsp;
@@ -659,7 +659,7 @@ true
 - example
 
 ```
-http://34.64.142.55/user/check/certcode?email=96bohyun@naver.com&certCode=kcJ9Dxks
+http://34.64.124.91/user/check/certcode?email=96bohyun@naver.com&certCode=kcJ9Dxks
 ```
 
 &nbsp;
@@ -873,7 +873,7 @@ true
 - example
 
 ```
-http://34.64.142.55/user/1
+http://34.64.124.91/user/1
 ```
 
 &nbsp;
@@ -927,7 +927,7 @@ http://34.64.142.55/user/1
 - example
 
 ```
-http://34.64.142.55/user/1/bh1234
+http://34.64.124.91/user/1/bh1234
 ```
 
 &nbsp;
@@ -956,7 +956,7 @@ true
 - example
 
 ```
-http://34.64.142.55/user
+http://34.64.124.91/user
 ```
 
 &nbsp;
@@ -1013,7 +1013,7 @@ http://34.64.142.55/user
 - example
 
 ```
-http://34.64.142.55/user/role?adminId=2&userId=3&adminPassword=bh1234
+http://34.64.124.91/user/role?adminId=2&userId=3&adminPassword=bh1234
 ```
 
 &nbsp;
@@ -1165,7 +1165,7 @@ true
 - example
 
 ```
-http://34.64.142.55/review/1
+http://34.64.124.91/review/1
 ```
 
 &nbsp;
@@ -1249,7 +1249,7 @@ http://34.64.142.55/review/1
 - example
 
 ```
-http://34.64.142.55/review/2
+http://34.64.124.91/review/2
 
 {
     "id":1,
@@ -1332,7 +1332,7 @@ http://34.64.142.55/review/2
 - example
 
 ```
-http://34.64.142.55/review/2/1
+http://34.64.124.91/review/2/1
 ```
 
 &nbsp;
@@ -1367,8 +1367,8 @@ true
 - example
 
 ```
-http://34.64.142.55/review/list/station?stationName=당고개
-http://34.64.142.55/review/list/station?stationName=당고개&sortParam=star
+http://34.64.124.91/review/list/station?stationName=당고개
+http://34.64.124.91/review/list/station?stationName=당고개&sortParam=star
 ```
 
 &nbsp;
@@ -1488,8 +1488,8 @@ http://34.64.142.55/review/list/station?stationName=당고개&sortParam=star
 - example
 
 ```
-http://34.64.142.55/review/list/user?userId=2
-http://34.64.142.55/review/list/user?userId=2&sortParam=star
+http://34.64.124.91/review/list/user?userId=2
+http://34.64.124.91/review/list/user?userId=2&sortParam=star
 ```
 
 &nbsp;

@@ -44,24 +44,22 @@ public class ReviewController extends LoggerUtils {
     /**
      * 파일 불러오기
      */
-    @GetMapping(value = "/img/{id}")
-    public ResponseEntity<?> loadFile(@PathVariable int id) throws Exception {
-        String reviewFilePath = reviewService.getReviewFileInfo(id);
-        String fileInfo = filePath + File.separator + reviewFilePath;
+    @GetMapping(value = "/img")
+    public ResponseEntity<?> loadFile(@RequestParam String fileName) throws Exception {
+        String fileInfo = filePath + File.separator + fileName;
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + new String(fileInfo.getBytes("UTF-8"), "ISO-8859-1") + "\"");
         headers.setContentType(MediaType.IMAGE_PNG);
-        Resource resource = fileService.loadFile(reviewFilePath);
+        Resource resource = fileService.loadFile(fileName);
         return ResponseEntity.ok().headers(headers).body(resource);
     }
 
     /**
      * 파일 삭제
      */
-    @DeleteMapping(value = "/img/{id}")
-    public ResponseEntity<?> deleteFile(@PathVariable int id) {
-        String reviewFilePath = reviewService.getReviewFileInfo(id);
-        return new ResponseEntity<>(fileService.deleteFile(reviewFilePath), HttpStatus.OK);
+    @DeleteMapping(value = "/img")
+    public ResponseEntity<?> deleteFile(@RequestParam String fileName) {
+        return new ResponseEntity<>(fileService.deleteFile(fileName), HttpStatus.OK);
     }
 
     @PostMapping(value = "/{userId}")

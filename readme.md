@@ -1629,7 +1629,7 @@ http://34.64.124.91/review/list/user?userId=2&sortParam=star
 - example
 
 ```
-localhost/recommendation?type=0
+http://34.64.124.91/recommendation?type=0
 ```
 
 &nbsp;
@@ -1696,4 +1696,74 @@ localhost/recommendation?type=0
     }
 ]
 ```
+
+&nbsp;
+
+&nbsp;
+
+#### 2-23. 리뷰 파일 조회
+
+[Request]
+
+- path : {host}/review/img
+- method : GET
+- parameters
+
+| name     | type   | desc                 | 필수값 |
+| -------- | ------ | -------------------- | ------ |
+| fileName | String | 파일명 (reviewImage) | Y      |
+
+- example
+
+```
+http://34.64.124.91/review/img?fileName=20200929/6.png
+```
+
+&nbsp;
+
+[Response]
+
+- type : Resource
+- desc : 이미지 파일 resource
+- example
+
+
+
+&nbsp;
+
+&nbsp;
+
+#### 2-24. 리뷰 파일 삭제
+
+[Request]
+
+- path : {host}/review/img
+- method : DELETE
+- parameters
+
+| name     | type   | desc                 | 필수값 |
+| -------- | ------ | -------------------- | ------ |
+| fileName | String | 파일명 (reviewImage) | Y      |
+
+- example
+
+```
+http://34.64.124.91/review/img?fileName=20200929/6.png
+```
+
+&nbsp;
+
+[Response]
+
+- type : boolean
+- desc : 파일 삭제 성공 - true, 실패 -  false
+- example
+
+```
+true
+```
+
+
+
+&nbsp;
 
